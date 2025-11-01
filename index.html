@@ -1,18 +1,898 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<title>91暗网</title>
-<style type="text/css">
-body {
-    background-image: url(heike.jpg);
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>凯杰全球可飞</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --success-color: #4cc9f0;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: white;
+            transition: var(--transition);
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* 语言选择器样式 */
+        .language-selector {
+            position: relative;
+        }
+        
+        .language-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+        
+        .language-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .language-btn i {
+            margin-right: 5px;
+        }
+        
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            min-width: 120px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            display: none;
+            z-index: 1000;
+        }
+        
+        .language-dropdown.show {
+            display: block;
+        }
+        
+        .language-option {
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            color: var(--dark-color);
+            transition: var(--transition);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .language-option:last-child {
+            border-bottom: none;
+        }
+        
+        .language-option:hover {
+            background: var(--light-color);
+            color: var(--primary-color);
+        }
+        
+        /* 英雄区域样式 */
+        .hero {
+            padding: 5rem 0;
+            background: linear-gradient(rgba(67, 97, 238, 0.9), rgba(58, 12, 163, 0.8)), url('简介.png') center/cover no-repeat;
+            color: white;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .btn:hover {
+            background-color: #e11574;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+            margin-left: 10px;
+        }
+        
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+        
+        /* 关于我们区域样式 */
+        .about {
+            padding: 5rem 0;
+            background-color: white;
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-image {
+            flex: 1;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            color: var(--gray-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* 服务区域样式 */
+        .services {
+            padding: 5rem 0;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #adb5bd;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .logo {
+                margin-bottom: 1rem;
+            }
+            
+            nav {
+                width: 100%;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                display: none;
+                width: 100%;
+            }
+            
+            nav ul.show {
+                display: flex;
+            }
+            
+            nav ul li {
+                margin: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                width: 100%;
+            }
+            
+            nav ul li a {
+                display: block;
+                padding: 0.8rem 0;
+            }
+            
+            .language-selector {
+                width: 100%;
+            }
+            
+            .language-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .language-dropdown {
+                width: 100%;
+                position: static;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 20px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .btn-group {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn-outline {
+                margin-left: 0;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+<body>
+    <!-- 头部区域 -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-plane"></i>
+                    <span class="lang-zh">凯杰全球可飞</span>
+                    <span class="lang-en" style="display: none;">Kaijie Global Flight</span>
+                    <span class="lang-ja" style="display: none;">カイジェイ・グローバルフライト</span>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <nav>
+                    <ul id="navMenu">
+                        <li>
+                            <a href="#home" class="lang-zh">首页</a>
+                            <a href="#home" class="lang-en" style="display: none;">Home</a>
+                            <a href="#home" class="lang-ja" style="display: none;">ホーム</a>
+                        </li>
+                        <li>
+                            <a href="#about" class="lang-zh">关于我们</a>
+                            <a href="#about" class="lang-en" style="display: none;">About Us</a>
+                            <a href="#about" class="lang-ja" style="display: none;">会社概要</a>
+                        </li>
+                        <li>
+                            <a href="#services" class="lang-zh">服务</a>
+                            <a href="#services" class="lang-en" style="display: none;">Services</a>
+                            <a href="#services" class="lang-ja" style="display: none;">サービス</a>
+                        </li>
+                        <li>
+                            <a href="#contact" class="lang-zh">联系我们</a>
+                            <a href="#contact" class="lang-en" style="display: none;">Contact</a>
+                            <a href="#contact" class="lang-ja" style="display: none;">お問い合わせ</a>
+                        </li>
+                        <li class="language-selector">
+                            <button class="language-btn" id="languageBtn">
+                                <i class="fas fa-globe"></i>
+                                <span class="lang-zh">中文</span>
+                                <span class="lang-en" style="display: none;">English</span>
+                                <span class="lang-ja" style="display: none;">日本語</span>
+                            </button>
+                            <div class="language-dropdown" id="languageDropdown">
+                                <div class="language-option" data-lang="zh">中文</div>
+                                <div class="language-option" data-lang="en">English</div>
+                                <div class="language-option" data-lang="ja">日本語</div>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
 
-<body style="font-size: 36px; text-align: center; color: #FF0000;">
-<h3 style="text-align: center">91暗网入口 点击下方免费看</h3>
-<hr>
-<h4><a href="凯杰.html">点击→庄凯杰明星黑料</a></h4>
+    <!-- 英雄区域 -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>
+                    <span class="lang-zh">凯杰全球可飞</span>
+                    <span class="lang-en" style="display: none;">Kaijie Global Flight</span>
+                    <span class="lang-ja" style="display: none;">カイジェイ・グローバルフライト</span>
+                </h1>
+                <p>
+                    <span class="lang-zh">专业约凯杰服务，为您提供全球飞行体验。</span>
+                    <span class="lang-en" style="display: none;">Professional Kaijie dating services, providing you with global flight experiences.</span>
+                    <span class="lang-ja" style="display: none;">プロフェッショナルなカイジェイデートサービスで、グローバルなフライト体験を提供します。</span>
+                </p>
+                <div class="btn-group">
+                    <a href="凯杰.html" class="btn">
+                        <span class="lang-zh">探索服务</span>
+                        <span class="lang-en" style="display: none;">Explore Services</span>
+                        <span class="lang-ja" style="display: none;">サービスを探す</span>
+                    </a>
+                    <a href="凯杰.html" class="btn btn-outline">
+                        <span class="lang-zh">了解更多</span>
+                        <span class="lang-en" style="display: none;">Learn More</span>
+                        <span class="lang-ja" style="display: none;">詳細を見る</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们区域 -->
+    <section class="about" id="about">
+        <div class="container">
+          <div class="section-title">
+            <h2>
+                <span class="lang-zh">关于我们</span>
+                <span class="lang-en" style="display: none;">About Us</span>
+                <span class="lang-ja" style="display: none;">会社概要</span>
+            </h2>
+              <p>
+                <span class="lang-zh">了解我们的凯杰</span>
+                <span class="lang-en" style="display: none;">Learn About Our Kaijie</span>
+                <span class="lang-ja" style="display: none;">私たちのカイジェイについて</span>
+              </p>
+            </div>
+            <div class="about-content">
+              <div class="about-text">
+                <h3>
+                  <span class="lang-zh">我们的故事</span>
+                  <span class="lang-en" style="display: none;">Our Story</span>
+                  <span class="lang-ja" style="display: none;">私たちの物語</span>
+                </h3>
+                  <p>
+                    <span class="lang-zh">凯杰三天使用dick赚了18万真是不可思议。</span>
+                    <span class="lang-en" style="display: none;">It's incredible that Kaijie earned 180,000 using dick in three days.</span>
+                          <span class="lang-ja" style="display: none;">カイジェイが3日間でdを使って18万円を稼いだのは本当に信じられないことです。</span>
+            </p>
+                  <p>
+                    <span class="lang-zh">我们的团队拥有最好的dick赚钱法。</span>
+                    <span class="lang-en" style="display: none;">Our team has the best dick money-making methods.</span>
+                    <span class="lang-ja" style="display: none;">私たちのチームは最高のdickマネーメイキング法を持っています。</span>
+                  </p>
+                    <p>
+                      <span class="lang-zh">无论您是要用dick赚钱，还是约凯杰，我们都可以服务。</span>
+                      <span class="lang-en" style="display: none;">Whether you want to make money with dick or date Kaijie, we can serve you.</span>
+                      <span class="lang-ja" style="display: none;">dickでお金を稼ぎたい方も、カイジェイとデートしたい方も、私たちがサービスを提供します。</span>
+                    </p>
+              </div>
+                <div class="about-image">
+                    <img src="凯杰.png" alt="旅行图片" width="300" height="459">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务区域 -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>
+                    <span class="lang-zh">我们的服务</span>
+                    <span class="lang-en" style="display: none;">Our Services</span>
+                    <span class="lang-ja" style="display: none;">私たちのサービス</span>
+                </h2>
+                <p>
+                    <span class="lang-zh">为您提供全方位的约凯杰方案</span>
+                    <span class="lang-en" style="display: none;">Providing you with comprehensive Kaijie dating solutions</span>
+                    <span class="lang-ja" style="display: none;">カイジェイとのデートに関する包括的なソリューションを提供します</span>
+                </p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <h3>
+                        <span class="lang-zh">机票预订</span>
+                        <span class="lang-en" style="display: none;">Flight Booking</span>
+                        <span class="lang-ja" style="display: none;">フライト予約</span>
+                    </h3>
+                    <p>
+                        <span class="lang-zh">提供全球各大航空公司的机票预订服务，价格优惠，航班选择多样，全球可飞，随时约凯杰</span>
+                        <span class="lang-en" style="display: none;">We provide flight booking services for major airlines worldwide, with competitive prices and diverse flight options. Fly globally, date Kaijie anytime.</span>
+                        <span class="lang-ja" style="display: none;">世界中の主要航空会社のフライト予約サービスを提供し、競争力のある価格と多様なフライトオプションがあります。世界中どこへでも飛べ、いつでもカイジェイとデートできます。</span>
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <h3>
+                        <span class="lang-zh">酒店预订</span>
+                        <span class="lang-en" style="display: none;">Hotel Booking</span>
+                        <span class="lang-ja" style="display: none;">ホテル予約</span>
+                    </h3>
+                    <p>
+                        <span class="lang-zh">精选全球高品质酒店，提供最适合您需求的住宿选择。</span>
+                        <span class="lang-en" style="display: none;">We select high-quality hotels worldwide, providing accommodation options that best suit your needs.</span>
+                        <span class="lang-ja" style="display: none;">世界中の高品質なホテルを厳選し、あなたのニーズに最適な宿泊オプションを提供します。</span>
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3>
+                        <span class="lang-zh">旅行规划</span>
+                        <span class="lang-en" style="display: none;">Travel Planning</span>
+                        <span class="lang-ja" style="display: none;">旅行計画</span>
+                    </h3>
+                    <p>
+                        <span class="lang-zh">根据您的兴趣和需求，量身定制个性化旅行路线和行程安排，让你和凯杰更好的培养情趣。</span>
+                        <span class="lang-en" style="display: none;">We tailor personalized travel routes and itineraries based on your interests and needs, helping you and Kaijie develop a better connection.</span>
+                        <span class="lang-ja" style="display: none;">あなたの興味とニーズに基づいて、個別にカスタマイズされた旅行ルートと旅程を計画し、あなたとカイジェイがより良い関係を築けるようにします。</span>
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-passport"></i>
+                    </div>
+                    <h3>
+                        <span class="lang-zh">签证服务</span>
+                        <span class="lang-en" style="display: none;">Visa Services</span>
+                        <span class="lang-ja" style="display: none;">ビザサービス</span>
+                    </h3>
+                    <p>
+                        <span class="lang-zh">专业签证咨询和代办服务，提高签证通过率，节省您的时间，让你马上可以出国约凯杰</span>
+                        <span class="lang-en" style="display: none;">Professional visa consultation and agency services to increase visa approval rates, save your time, and allow you to go abroad to date Kaijie immediately.</span>
+                        <span class="lang-ja" style="display: none;">プロフェッショナルなビザ相談と代行サービスで、ビザの承認率を高め、時間を節約し、すぐに海外に行ってカイジェイとデートできるようにします。</span>
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3>
+                        <span class="lang-zh">租车服务</span>
+                        <span class="lang-en" style="display: none;">Car Rental</span>
+                        <span class="lang-ja" style="display: none;">レンタカー</span>
+                    </h3>
+                    <p>
+                        <span class="lang-zh">提供全球范围内的租车服务，让您随时快速达到酒店。</span>
+                        <span class="lang-en" style="display: none;">We provide car rental services worldwide, allowing you to reach hotels quickly anytime.</span>
+                        <span class="lang-ja" style="display: none;">世界中でレンタカーサービスを提供し、いつでも素早くホテルに到着できるようにします。</span>
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>
+                        <span class="lang-zh">24h7day客服</span>
+                        <span class="lang-en" style="display: none;">24/7 Customer Service</span>
+                        <span class="lang-ja" style="display: none;">24時間365日カスタマーサービス</span>
+                    </h3>
+                    <p>
+                        <span class="lang-zh">全天候客户服务，随时为您解决约凯杰中的任何疑问。</span>
+                        <span class="lang-en" style="display: none;">Round-the-clock customer service, ready to solve any questions about dating Kaijie at any time.</span>
+                        <span class="lang-ja" style="display: none;">24時間365日のカスタマーサービスで、カイジェイとのデートに関するあらゆる疑問にいつでも対応します。</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚区域 -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>
+                        <span class="lang-zh">关于我们</span>
+                        <span class="lang-en" style="display: none;">About Us</span>
+                        <span class="lang-ja" style="display: none;">会社概要</span>
+                    </h3>
+                    <p>
+                        <span class="lang-zh">我们是一家专业的约炮凯杰服务公司，为客户提供高质量的全球约炮体验。</span>
+                        <span class="lang-en" style="display: none;">We are a professional Kaijie dating service company, providing clients with high-quality global dating experiences.</span>
+                        <span class="lang-ja" style="display: none;">私たちはプロフェッショナルなカイジェイデートサービス会社であり、クライアントに高品質なグローバルなデート体験を提供します。</span>
+                    </p>
+                </div>
+                <div class="footer-column">
+                    <h3>
+                        <span class="lang-zh">快速链接</span>
+                        <span class="lang-en" style="display: none;">Quick Links</span>
+                        <span class="lang-ja" style="display: none;">クイックリンク</span>
+                    </h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">
+                            <span class="lang-zh">首页</span>
+                            <span class="lang-en" style="display: none;">Home</span>
+                            <span class="lang-ja" style="display: none;">ホーム</span>
+                        </a></li>
+                        <li><a href="#about">
+                            <span class="lang-zh">关于我们</span>
+                            <span class="lang-en" style="display: none;">About Us</span>
+                            <span class="lang-ja" style="display: none;">会社概要</span>
+                        </a></li>
+                        <li><a href="#services">
+                            <span class="lang-zh">服务</span>
+                            <span class="lang-en" style="display: none;">Services</span>
+                            <span class="lang-ja" style="display: none;">サービス</span>
+                        </a></li>
+                        <li><a href="#contact">
+                            <span class="lang-zh">联系我们</span>
+                            <span class="lang-en" style="display: none;">Contact</span>
+                            <span class="lang-ja" style="display: none;">お問い合わせ</span>
+                        </a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>
+                        <span class="lang-zh">服务项目</span>
+                        <span class="lang-en" style="display: none;">Services</span>
+                        <span class="lang-ja" style="display: none;">サービス項目</span>
+                    </h3>
+                    <ul class="footer-links">
+                        <li><a href="凯杰.html">
+                            <span class="lang-zh">机票预订</span>
+                            <span class="lang-en" style="display: none;">Flight Booking</span>
+                            <span class="lang-ja" style="display: none;">フライト予約</span>
+                        </a></li>
+                        <li><a href="凯杰.html">
+                            <span class="lang-zh">酒店预订</span>
+                            <span class="lang-en" style="display: none;">Hotel Booking</span>
+                            <span class="lang-ja" style="display: none;">ホテル予約</span>
+                        </a></li>
+                        <li><a href="凯杰.html">
+                            <span class="lang-zh">旅行规划</span>
+                            <span class="lang-en" style="display: none;">Travel Planning</span>
+                            <span class="lang-ja" style="display: none;">旅行計画</span>
+                        </a></li>
+                        <li><a href="凯杰.html">
+                            <span class="lang-zh">签证服务</span>
+                            <span class="lang-en" style="display: none;">Visa Services</span>
+                            <span class="lang-ja" style="display: none;">ビザサービス</span>
+                        </a></li>
+                        <li><a href="凯杰.html">
+                            <span class="lang-zh">租车服务</span>
+                            <span class="lang-en" style="display: none;">Car Rental</span>
+                            <span class="lang-ja" style="display: none;">レンタカー</span>
+                        </a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>
+                        <span class="lang-zh">联系我们</span>
+                        <span class="lang-en" style="display: none;">Contact Us</span>
+                        <span class="lang-ja" style="display: none;">お問い合わせ</span>
+                    </h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> 
+                            <span class="lang-zh">福建省福清市江阴镇</span>
+                            <span class="lang-en" style="display: none;">Jiangyin Town, Fuqing City, Fujian Province</span>
+                            <span class="lang-ja" style="display: none;">福建省福清市江陰鎮</span>
+                        </li>
+                        <li><i class="fas fa-phone"></i> +86 186 xxxx xxxx</li>
+                        <li><i class="fas fa-envelope"></i> 1306363024@qq.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>
+                    <span class="lang-zh">&copy; 2025 凯杰全球可飞。</span>
+                    <span class="lang-en" style="display: none;">&copy; 2025 Kaijie Global Flight.</span>
+                    <span class="lang-ja" style="display: none;">&copy; 2025 カイジェイ・グローバルフライト。</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 移动端菜单切换
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('navMenu').classList.toggle('show');
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 移动端点击后关闭菜单
+                    if(window.innerWidth <= 768) {
+                        document.getElementById('navMenu').classList.remove('show');
+                    }
+                }
+            });
+        });
+        
+        // 语言切换功能
+        const languageBtn = document.getElementById('languageBtn');
+        const languageDropdown = document.getElementById('languageDropdown');
+        
+        // 切换语言下拉菜单显示/隐藏
+        languageBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            languageDropdown.classList.toggle('show');
+        });
+        
+        // 点击页面其他地方关闭语言下拉菜单
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.language-selector')) {
+                languageDropdown.classList.remove('show');
+            }
+        });
+        
+        // 语言选择
+        document.querySelectorAll('.language-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const selectedLang = this.getAttribute('data-lang');
+                switchLanguage(selectedLang);
+                languageDropdown.classList.remove('show');
+            });
+        });
+        
+        // 切换语言函数
+        function switchLanguage(lang) {
+            // 隐藏所有语言文本
+            document.querySelectorAll('.lang-zh, .lang-en, .lang-ja').forEach(element => {
+                element.style.display = 'none';
+            });
+            
+            // 显示选定语言的文本
+            document.querySelectorAll(`.lang-${lang}`).forEach(element => {
+                element.style.display = 'inline';
+            });
+            
+            // 更新页面语言属性
+            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+        }
+    </script>
 </body>
 </html>
